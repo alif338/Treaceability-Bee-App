@@ -1,5 +1,5 @@
-import React from 'react';
-import Header from '../Header'
+import React from "react";
+import Header from '../Header';
 import {
   Box,
   Flex,
@@ -10,10 +10,10 @@ import {
   Spacer,
 } from '@chakra-ui/react';
 
-const AdminDashboard = () => {
+export default function Stup() {
   return (
     <>
-      <Header />
+      <Header/>
       <Flex
         bg={useColorModeValue('gray.100', 'gray.900')}
         align="center"
@@ -44,7 +44,7 @@ const AdminDashboard = () => {
                       <Heading fontSize={{
                         base: '2xl',
                         md: '3xl',
-                      }}>Dashboard</Heading>
+                      }}>Stup</Heading>
                     </Box>
                     <Spacer />
                   </Flex>
@@ -60,5 +60,3 @@ const AdminDashboard = () => {
     </>
   )
 }
-
-export default AdminDashboard;
