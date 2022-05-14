@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./components/login/Login"
+
+// Admin Page
 import AdminDashboard from "./components/admin-page/Dashboard";
 import Peternak from "./components/admin-page/Peternak";
 import ProdukJadi from "./components/admin-page/ProdukJadi";
 import ProdukMentah from "./components/admin-page/ProdukMentah";
 import Stup from "./components/admin-page/Stup";
+
+// User Page
+import UserDashboard from "./components/user-page/Dashboard";
+import ProductDetail from "./components/user-page/ProductDetail"
 import './App.css';
 
 function App() {
@@ -20,6 +26,10 @@ function App() {
         <Route path="/admin/produk-jadi" exact element={<ProdukJadi/>}/>
         <Route path="/admin/produk-mentah" exact element={<ProdukMentah/>}/>
         <Route path="/admin/stup" exact element={<Stup/>}/>
+
+        // Users Interface
+        <Route path="/user/dashboard" exact element={<UserDashboard/>}/>
+        <Route path="/user/dashboard/:id" exact element={<ProductDetail/>}/>
       </Routes>
     </BrowserRouter>
   );

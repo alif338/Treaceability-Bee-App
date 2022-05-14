@@ -12,7 +12,7 @@ const Login = () => {
     if (radioValue === '1')
       navigate('/admin/dashboard');
     else
-      navigate('/');
+      navigate('/user/dashboard');
     
   }
   return (
