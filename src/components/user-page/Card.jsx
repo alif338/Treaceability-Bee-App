@@ -1,10 +1,20 @@
 import {
   Box,
   Image,
-  Badge
+  Badge,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Button
 } from "@chakra-ui/react";
-import {StarIcon} from "@chakra-ui/icons";
+import { StarIcon } from "@chakra-ui/icons";
 import React from 'react';
+import Lorem from 'react-lorem-component';
 
 export default function AirbnbExample() {
   const property = {
@@ -17,6 +27,7 @@ export default function AirbnbExample() {
     reviewCount: 34,
     rating: 4,
   }
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden'>
@@ -68,6 +79,27 @@ export default function AirbnbExample() {
           <Box as='span' ml='2' color='gray.600' fontSize='sm'>
             {property.reviewCount} reviews
           </Box>
+        </Box>
+        <Box mt={2}>
+          <Button onClick={onOpen}>Trace</Button>
+
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Modal Title</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <Lorem count={2} />
+              </ModalBody>
+
+              <ModalFooter>
+                <Button colorScheme='blue' mr={3} onClick={onClose}>
+                  Close
+                </Button>
+                <Button variant='ghost'>Secondary Action</Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
         </Box>
       </Box>
     </Box>

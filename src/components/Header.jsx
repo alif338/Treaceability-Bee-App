@@ -12,7 +12,7 @@ import {
   MenuItem,
   useColorModeValue,
 } from '@chakra-ui/react';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
   const navigate = useNavigate();
@@ -42,7 +42,7 @@ export default function Header() {
                   textDecoration: 'none',
                   bg: useColorModeValue('gray.200', 'gray.700')
                 }}
-              href={'/admin/dashboard'}
+                href={'/admin/dashboard'}
               >
                 Dashboards
 							</Link>
@@ -54,7 +54,7 @@ export default function Header() {
                   textDecoration: 'none',
                   bg: useColorModeValue('gray.200', 'gray.700')
                 }}
-              href={'/admin/peternak'}
+                href={'/admin/peternak'}
               >
                 Peternak
 							</Link>
@@ -66,7 +66,7 @@ export default function Header() {
                   textDecoration: 'none',
                   bg: useColorModeValue('gray.200', 'gray.700')
                 }}
-              href={'/admin/stup'}
+                href={'/admin/stup'}
               >
                 Stup
 							</Link>
@@ -78,11 +78,11 @@ export default function Header() {
                   textDecoration: 'none',
                   bg: useColorModeValue('gray.200', 'gray.700')
                 }}
-              href={'/admin/produk-mentah'}
+                href={'/admin/produk-mentah'}
               >
                 Produk Mentah
 							</Link>
-                            <Link
+              <Link
                 px={2}
                 py={1}
                 rounded={'md'}
@@ -90,7 +90,7 @@ export default function Header() {
                   textDecoration: 'none',
                   bg: useColorModeValue('gray.200', 'gray.700')
                 }}
-              href={'/admin/produk-jadi'}
+                href={'/admin/produk-jadi'}
               >
                 Produk Jadi
 							</Link>
