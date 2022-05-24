@@ -1,11 +1,13 @@
 /*
 Input yang diperlukan
-1. name
-2. provinsi
-3. kecamatan
-4. kelurahan
-5. jumlah_volume
-6. raw_products
+1. jumlah (dalam liter)
+2. sumber stup (list dari id-stup)
+3. warna (string)
+4. rasa (string)
+5. Tanggal Panen
+
+Otomatis terisi:
+1. no_batch (integer)
 */
 
 import React, {useState}  from 'react'; 

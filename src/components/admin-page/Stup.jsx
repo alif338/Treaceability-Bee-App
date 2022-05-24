@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Header from '../Header';
 import {
   Box,
@@ -9,10 +9,40 @@ import {
   VStack,
   Spacer,
   Link,
-  Button
+  Button,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td
 } from '@chakra-ui/react';
+import {supabase} from '../../supabaseClient'
 
 export default function Stup() {
+  const [stups, setStups] = useState(null);
+  useEffect(() => {
+    getStups()
+  }, [])
+
+  async function getStups() {
+    try {
+      let {data, error, status} = await supabase
+        .from('stup')
+        .select()
+
+      if (error) {
+        throw error
+      }
+
+      if (data) {
+        setStups(data)
+        console.log(data)
+      }
+    } catch (error) {
+      alert(error.message)
+    }
+  }
   return (
     <>
       <Header/>
@@ -66,8 +96,39 @@ export default function Stup() {
                     </Box>
                   </Flex>
                   <Flex mt='5'>
-                    <div id="chartdiv"></div>
+                    <Table variant='striped'>
+                      <Thead>
+                        <Tr>
+                          <Th>Id</Th>
+                          <Th>Lokasi</Th>
+                          <Th>Link Foto</Th>
+                          <Th>Terakhir Dipanen</Th>
+                          <Th>Produktivitas</Th>
+                        </Tr>
+                      </Thead>
+                      <Tbody>
+                        {
+                          stups && stups.map(function(item, idx) {
+                            return (
+                              <Tr key={idx}>
+                                <Td> {item.id}</Td>
+                                <Td> {item.lokasi[0]}, {item.lokasi[1]}</Td>
+                                <Td> <Link href={item.link_foto}>{item.link_foto}</Link></Td>
+                                <Td> {item.terakhir_dipanen}</Td>
+                                <Td> {item.produktivitas}</Td>
+                              </Tr>
+                            )
+                          })
+                        }
+                      </Tbody>
+                    </Table>
                   </Flex>
+                  {stups === null || stups.length === 0 ?
+                    <Flex mt='8' align="center" justify="center">
+                      <Heading fontSize={{ base: '2xl', md: '3xl', }}>No Data</Heading>
+                    </Flex> :
+                    <Flex mt='8' align="center" justify="center"></Flex>
+                  }
                 </Box>
               </Stack>
             </VStack>

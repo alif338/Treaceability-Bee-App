@@ -6,9 +6,8 @@ Input data yang diperlukan:
 
 yang otomatis terisi:
 1. id (integer)
-2. terakhir dipanen (integer, unix epoch)
 */
-import React, {useState, forwardRef}  from 'react'; 
+import React, {useState}  from 'react'; 
 import { 
    Box, 
    Button, 
@@ -68,7 +67,7 @@ export default function TambahStup() {
                    minW='90vw'>
                   <Flex>
                      <Box p='2'> 
-                        <Heading fontSize={{ base: '2xl', md: '3xl', }}>Input Data Peternak</Heading> 
+                        <Heading fontSize={{ base: '2xl', md: '3xl', }}>Input Data Stup</Heading> 
                      </Box> 
                      <Spacer /> 
                      <Box> 
