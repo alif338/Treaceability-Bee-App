@@ -8,6 +8,7 @@ import Peternak from "./components/admin-page/Peternak";
 import ProdukJadi from "./components/admin-page/ProdukJadi";
 import ProdukMentah from "./components/admin-page/ProdukMentah";
 import Stup from "./components/admin-page/Stup";
+import TambahStup from "./components/admin-page/forms/TambahStup";
 
 // User Page
 import UserDashboard from "./components/user-page/Dashboard";
@@ -26,6 +27,7 @@ function App() {
         <Route path="/admin/produk-jadi" exact element={<ProdukJadi/>}/>
         <Route path="/admin/produk-mentah" exact element={<ProdukMentah/>}/>
         <Route path="/admin/stup" exact element={<Stup/>}/>
+        <Route path="/admin/stup/add-stup" exact element={<TambahStup/>}/>
 
         // Users Interface
         <Route path="/user/dashboard" exact element={<UserDashboard/>}/>

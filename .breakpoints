@@ -1,3 +1,12 @@
 {
-  "files": {}
+  "files": {
+    "src/components/admin-page/forms/TambahPeternak.jsx": [
+      {
+        "id": "dd2334aa-84e7-4461-afd1-a741c69a118f",
+        "line": 1,
+        "version": 0,
+        "index": 0
+      }
+    ]
+  }
 }

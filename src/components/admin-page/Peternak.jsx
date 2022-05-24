@@ -8,6 +8,8 @@ import {
   useColorModeValue,
   VStack,
   Spacer,
+  Link,
+  Button
 } from '@chakra-ui/react';
 
 export default function Peternak() {
@@ -47,6 +49,20 @@ export default function Peternak() {
                       }}>Peternak</Heading>
                     </Box>
                     <Spacer />
+                    <Box>
+                      <Link
+                        px={2}
+                        py={1}
+                        rounded={'md'}
+                        _hover={{ textDecoration: 'none', }}>
+                        <Button
+                          colorScheme="blue"
+                          bg="blue.400"
+                          color="white"
+                          _hover={{ bg: 'blue.500', }}
+                          isFullWidth> Tambah Peternak </Button>
+                      </Link>
+                    </Box>
                   </Flex>
                   <Flex mt='5'>
                     <div id="chartdiv"></div>
