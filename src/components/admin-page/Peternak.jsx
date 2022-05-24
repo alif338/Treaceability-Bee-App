@@ -33,7 +33,6 @@ export default function Peternak() {
               <Stack
                 spacing={{ base: 4, md: 8, lg: 20 }}
                 direction={{ base: 'column', md: 'row' }}>
-
                 <Box
                   bg={useColorModeValue('white', 'gray.700')}
                   borderRadius="lg"

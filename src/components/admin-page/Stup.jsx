@@ -17,32 +17,16 @@ import {
   Th,
   Td
 } from '@chakra-ui/react';
-import {supabase} from '../../supabaseClient'
+
+import getFromDb from '../../services/getFromDb';
 
 export default function Stup() {
   const [stups, setStups] = useState(null);
   useEffect(() => {
-    getStups()
+    getFromDb('state').then((value) => {
+      setStups(value[0].stups)
+    })
   }, [])
-
-  async function getStups() {
-    try {
-      let {data, error, status} = await supabase
-        .from('stup')
-        .select()
-
-      if (error) {
-        throw error
-      }
-
-      if (data) {
-        setStups(data)
-        console.log(data)
-      }
-    } catch (error) {
-      alert(error.message)
-    }
-  }
   return (
     <>
       <Header/>
@@ -63,7 +47,6 @@ export default function Stup() {
               <Stack
                 spacing={{ base: 4, md: 8, lg: 20 }}
                 direction={{ base: 'column', md: 'row' }}>
-
                 <Box
                   bg={useColorModeValue('white', 'gray.700')}
                   borderRadius="lg"

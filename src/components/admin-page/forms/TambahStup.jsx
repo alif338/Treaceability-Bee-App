@@ -31,6 +31,8 @@ import {
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from "react-datepicker";
+import {supabase} from "../../../supabaseClient"
+import getFromDb from "../../../services/getFromDb";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -43,7 +45,31 @@ export default function TambahStup() {
   const [startDate, setStartDate] = useState(new Date());
   
   const handleSubmit = async () => {
-    
+    const state = await getFromDb('state');
+    state[0].stups.push({
+      id: state[0].stups.length + 1,
+      lokasi: [
+        latitude,
+        longitude
+      ],
+      link_foto: linkFoto,
+      produktivitas: produktivitas,
+      terakhir_dipanen: Math.floor(startDate.getTime()/1000)
+    })
+    console.log(state)
+    try {
+      const { data, error } = await supabase
+        .from('state')
+        .update({stups: state[0].stups})
+        .eq('id', 1);
+      if (error) throw error
+      if (data) {
+        alert('data berhasil ditambahkan')
+        navigate('/admin/stup')
+      }
+    } catch (error) {
+      alert('data gagal ditambahkan')
+    }
   }
 
   return (
