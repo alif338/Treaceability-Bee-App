@@ -33,6 +33,7 @@ import { useNavigate } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import {supabase} from "../../../supabaseClient"
 import getFromDb from "../../../services/getFromDb";
+import updateState from "../../../services/sendToDb";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -56,7 +57,17 @@ export default function TambahStup() {
       produktivitas: produktivitas,
       terakhir_dipanen: Math.floor(startDate.getTime()/1000)
     })
-    console.log(state)
+    // console.log(state)
+    // await updateState({
+    //   data: {stups: state[0].stups},
+    //   onSuccess: () => {
+    //     alert('data berhasil ditambahkan');
+    //     navigate('/admin/stup');
+    //   },
+    //   onError: () => {
+    //     alert('data gagal ditambahkan')
+    //   }
+    // })
     try {
       const { data, error } = await supabase
         .from('state')

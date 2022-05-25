@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Header from '../Header';
 import {
   Box,
@@ -9,10 +9,23 @@ import {
   VStack,
   Spacer,
   Link,
-  Button
+  Button,
+  Table,
+  Thead,
+  Tbody,
+  Th,
+  Tr,
+  Td
 } from '@chakra-ui/react';
+import getFromDb from '../../services/getFromDb';
 
 export default function Peternak() {
+  const [peternaks, setPeternaks] = useState(null)
+  useEffect(() => {
+    getFromDb('state').then((value) => {
+      setPeternaks(value[0].peternaks)
+    })
+  })
   return (
     <>
       <Header/>
@@ -53,7 +66,8 @@ export default function Peternak() {
                         px={2}
                         py={1}
                         rounded={'md'}
-                        _hover={{ textDecoration: 'none', }}>
+                        _hover={{ textDecoration: 'none', }}
+                        href={'/admin/peternak/add-peternak'}>
                         <Button
                           colorScheme="blue"
                           bg="blue.400"
@@ -64,8 +78,39 @@ export default function Peternak() {
                     </Box>
                   </Flex>
                   <Flex mt='5'>
-                    <div id="chartdiv"></div>
+                    <Table variant='striped'>
+                      <Thead>
+                        <Tr>
+                          <Th>Id</Th>
+                          <Th>Nama</Th>
+                          <Th>Provinsi</Th>
+                          <Th>Kecamatan/Kelurahan</Th>
+                          <Th>Jumlah Volume</Th>
+                        </Tr>
+                      </Thead>
+                      <Tbody>
+                        {
+                          peternaks && peternaks.map(function(item, idx) {
+                            return (
+                              <Tr key={idx}>
+                                <Td> {item.id}</Td>
+                                <Td> {item.name}</Td>
+                                <Td> {item.provinsi}</Td>
+                                <Td> {item.kecamatan}/{item.kelurahan}</Td>
+                                <Td> {item.jumlah_volume}</Td>
+                              </Tr>
+                            )
+                          })
+                        }
+                      </Tbody>
+                    </Table>
                   </Flex>
+                  {peternaks === null || peternaks.length === 0 ?
+                    <Flex mt='8' align="center" justify="center">
+                      <Heading fontSize={{ base: '2xl', md: '3xl', }}>No Data</Heading>
+                    </Flex> :
+                    <Flex mt='8' align="center" justify="center"></Flex>
+                  }
                 </Box>
               </Stack>
             </VStack>
