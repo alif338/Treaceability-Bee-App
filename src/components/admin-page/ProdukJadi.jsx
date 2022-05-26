@@ -3,6 +3,8 @@ import Header from '../Header';
 import {
   Box,
   Flex,
+  Link,
+  Button,
   Heading,
   Stack,
   useColorModeValue,
@@ -59,6 +61,22 @@ export default function ProdukJadi() {
                       }}>Produk Jadi</Heading>
                     </Box>
                     <Spacer />
+                    <Box>
+                      <Link
+                        px={2}
+                        py={1}
+                        rounded={'md'}
+                        _hover={{ textDecoration: 'none', }}
+                        // href={'/admin/peternak/add-peternak'}
+                        >
+                        <Button
+                          colorScheme="blue"
+                          bg="blue.400"
+                          color="white"
+                          _hover={{ bg: 'blue.500', }}
+                          isFullWidth> Tambah Produk Jadi </Button>
+                      </Link>
+                    </Box>
                   </Flex>
                   <Flex mt='5'>
                     <Table variant='striped'>

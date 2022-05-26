@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Box,
   Flex,
+  Text,
   Avatar,
   HStack,
   Link,
@@ -80,7 +81,7 @@ export default function Header() {
                 }}
                 href={'/admin/produk-mentah'}
               >
-                Produk Mentah
+                Mentah R.P
 							</Link>
               <Link
                 px={2}
@@ -92,7 +93,19 @@ export default function Header() {
                 }}
                 href={'/admin/produk-jadi'}
               >
-                Produk Jadi
+                Jadi R.P
+							</Link>
+              <Link
+                px={2}
+                py={1}
+                rounded={'md'}
+                _hover={{
+                  textDecoration: 'none',
+                  bg: useColorModeValue('gray.200', 'gray.700')
+                }}
+                // href={'/admin/produk-jadi'}
+              >
+                Konsumen
 							</Link>
             </HStack>
           </HStack>

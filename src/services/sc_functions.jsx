@@ -52,7 +52,7 @@ export async function f1_perpindahanProduk(src, dest, id) {
 export async function f2_stupStatusNonPemanenan(id_stup, new_data_stup) {
   let state = await getState();
   let state_t = Object.assign({}, state);
-  state_t.stups[id_stup] = new_data_stup;
+  state_t.stups[id_stup-1] = new_data_stup;
 
   return updateState({stups: state_t.stups});
 }
