@@ -1,24 +1,26 @@
-import { getFromDb } from './getFromDb';
+import getFromDb from './getFromDb';
+import {supabase} from '../supabaseClient';
 
 async function getState() {
   const result = await getFromDb('state')
   return result[0];
 }
 
-async function updateState(data) {
+async function updateState(data_obj) {
   try {
     const { data, error } = await supabase
       .from('state')
-      .update(data)
+      .update(data_obj)
       .eq('id', 1)
     if (error) throw error;
-    if (data) return data;
+    if (data) return true;
   } catch(error) {
-    alert('Data gagal diupdate')
+    console.log(error.message);
+    return false;
   }
 }
 
-export default function f1_perpindahanProduk(src, dest, id) {
+export async function f1_perpindahanProduk(src, dest, id) {
   let state = await getState();
   let state_t = Object.assign({}, state);
   if (src > 0) { /* dari peternak ke rumah produksi */
@@ -40,42 +42,43 @@ export default function f1_perpindahanProduk(src, dest, id) {
     }
   }
 
-  updateState({
+  return updateState({
     rumah_produksi: state_t.rumah_produksi, 
     konsumen: state_t.konsumen,
     peternaks: state_t.peternaks
   })
 }
 
-export default function f2_stupStatusNonPemanenan(id_stup, new_data_stup) {
+export async function f2_stupStatusNonPemanenan(id_stup, new_data_stup) {
   let state = await getState();
   let state_t = Object.assign({}, state);
   state_t.stups[id_stup] = new_data_stup;
 
-  updateState({stups: state_t.stups});
+  return updateState({stups: state_t.stups});
 }
 
-export default function f3_rumahProduksiStatus(new_data) {
+export async function  f3_rumahProduksiStatus(new_data) {
   let state = await getState();
   let state_t = Object.assign({}, state);
   state_t.rumah_produksi = new_data;
 
-  updateState({ rumah_produksi: state_t.rumah_produksi })
+  return updateState({ rumah_produksi: state_t.rumah_produksi })
 }
 
-export default async function f4_pemanenan(stup_sumber, id_peternak, data_panen, komposisi_volume) {
+export async function f4_pemanenan(stup_sumber, id_peternak, data_panen, komposisi_volume) {
   let total_volume = 0;
   let state = await getState();
   let state_t = Object.assign({}, state);
-  for (i = 1; i < stup_sumber.length; i++) {
+  for (let i = 0; i < stup_sumber.length; i++) {
     let today = Math.floor(new Date().getTime()/1000);
     let terakhir_dipanen = state.stups[i].terakhir_dipanen
     state_t.stups[i].produktivitas = komposisi_volume[i]/(today-terakhir_dipanen)*30;
     state_t.stups[i].terakhir_dipanen = today;
     total_volume += komposisi_volume[i];
+    console.log(total_volume)
   }
-  state_t.peternaks[id_peternak].jumlah_volume += total_volume;
-  state_t.peternaks[id_peternak].products_raw.push(data_panen);
+  state_t.peternaks[id_peternak-1].jumlah_volume = parseFloat(state_t.peternaks[id_peternak-1].jumlah_volume) + total_volume;
+  state_t.peternaks[id_peternak-1].products_raw.push(data_panen);
 
-  updateState({ stups: state_t.stups, peternaks: state_t.peternaks })
+  return updateState({ stups: state_t.stups, peternaks: state_t.peternaks })
 }

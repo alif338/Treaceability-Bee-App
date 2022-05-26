@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Header from '../Header';
 import {
   Box,
@@ -8,9 +8,22 @@ import {
   useColorModeValue,
   VStack,
   Spacer,
+  Table,
+  Thead,
+  Tbody,
+  Th,
+  Tr,
+  Td
 } from '@chakra-ui/react';
+import getFromDb from '../../services/getFromDb';
 
 export default function ProdukMentah() {
+  const [productsRaw, setProductsRaw] = useState([])
+  useEffect(() => {
+    getFromDb('state').then((value) => {
+      setProductsRaw(value[0].rumah_produksi.products_raw);
+    })
+  })
   return (
     <>
       <Header/>
@@ -48,8 +61,41 @@ export default function ProdukMentah() {
                     <Spacer />
                   </Flex>
                   <Flex mt='5'>
-                    <div id="chartdiv"></div>
+                    <Table variant='striped'>
+                      <Thead>
+                        <Tr>
+                          <Th>no_batch</Th>
+                          <Th>Jumlah (Liter)</Th>
+                          <Th>Sumber Stup</Th>
+                          <Th>Warna</Th>
+                          <Th>Rasa</Th>
+                          <Th>Tanggal Panen</Th>
+                        </Tr>
+                      </Thead>
+                      <Tbody>
+                        {
+                          productsRaw && productsRaw.map(function(item, idx) {
+                            return (
+                              <Tr key={idx}>
+                                <Td> {item.no_batch}</Td>
+                                <Td> {item.jumlah}</Td>
+                                <Td> {item.stup_sumber}</Td>
+                                <Td> {item.warna}</Td>
+                                <Td> {item.rasa}</Td>
+                                <Td> {item.tanggal_panen}</Td>
+                              </Tr>
+                            )
+                          })
+                        }
+                      </Tbody>
+                    </Table>
                   </Flex>
+                  {productsRaw === null || productsRaw.length === 0 ?
+                    <Flex mt='8' align="center" justify="center">
+                      <Heading fontSize={{ base: '2xl', md: '3xl', }}>No Data</Heading>
+                    </Flex> :
+                    <Flex mt='8' align="center" justify="center"></Flex>
+                  }
                 </Box>
               </Stack>
             </VStack>

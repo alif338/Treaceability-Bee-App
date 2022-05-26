@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Header from '../Header';
 import {
   Box,
@@ -8,9 +8,22 @@ import {
   useColorModeValue,
   VStack,
   Spacer,
+  Table,
+  Thead,
+  Tbody,
+  Th,
+  Tr,
+  Td
 } from '@chakra-ui/react';
+import getFromDb from '../../services/getFromDb';
 
 export default function ProdukJadi() {
+  const [products, setProducts] = useState([])
+  useEffect(() => {
+    getFromDb('state').then((value) => {
+      setProducts(value[0].konsumen);
+    })
+  })
   return (
     <>
       <Header/>
@@ -48,8 +61,43 @@ export default function ProdukJadi() {
                     <Spacer />
                   </Flex>
                   <Flex mt='5'>
-                    <div id="chartdiv"></div>
+                    <Table variant='striped'>
+                      <Thead>
+                        <Tr>
+                          <Th>product_id</Th>
+                          <Th>Sumber Stup</Th>
+                          <Th>Jenis (Madu/Propolis)</Th>
+                          <Th>Grade</Th>
+                          <Th>Volume</Th>
+                          <Th>Tanggal Produksi</Th>
+                          <Th>Tanggal Kadaluwarsa</Th>
+                        </Tr>
+                      </Thead>
+                      <Tbody>
+                        {
+                          products && products.map(function(item, idx) {
+                            return (
+                              <Tr key={idx}>
+                                <Td> {item.product_id}</Td>
+                                <Td> {item.stup_sumber}</Td>
+                                <Td> {item.jenis == 0 ? "Madu" : "Propolis"}</Td>
+                                <Td> {item.grade}</Td>
+                                <Td> {item.volume}</Td>
+                                <Td> {item.tanggal_produksi}</Td>
+                                <Td> {item.tanggal_kadaluwarsa}</Td>
+                              </Tr>
+                            )
+                          })
+                        }
+                      </Tbody>
+                    </Table>
                   </Flex>
+                  {products === null || products.length === 0 ?
+                    <Flex mt='8' align="center" justify="center">
+                      <Heading fontSize={{ base: '2xl', md: '3xl', }}>No Data</Heading>
+                    </Flex> :
+                    <Flex mt='8' align="center" justify="center"></Flex>
+                  }
                 </Box>
               </Stack>
             </VStack>

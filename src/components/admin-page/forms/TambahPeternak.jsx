@@ -76,7 +76,7 @@ export default function TambahPeternak() {
       align="center"
       justify="center"
       css={{ backgroundAttachment: 'fixed', }}
-      id="contact">
+      id="tambahPeternak">
       <Box
         borderRadius="lg"
         m={{ base: 5, md: 16, lg: 10 }}

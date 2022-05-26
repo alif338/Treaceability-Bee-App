@@ -20,10 +20,12 @@ import {
 import getFromDb from '../../services/getFromDb';
 
 export default function Peternak() {
-  const [peternaks, setPeternaks] = useState(null)
+  const [peternaks, setPeternaks] = useState(null);
+  const [stups, setStups] = useState([]);
   useEffect(() => {
     getFromDb('state').then((value) => {
-      setPeternaks(value[0].peternaks)
+      setPeternaks(value[0].peternaks);
+      setStups(value[0].stups);
     })
   })
   return (
@@ -76,6 +78,22 @@ export default function Peternak() {
                           isFullWidth> Tambah Peternak </Button>
                       </Link>
                     </Box>
+                    <Box ml={4}>
+                      <Link
+                        px={2}
+                        py={1}
+                        rounded={'md'}
+                        _hover={{ textDecoration: 'none', }}
+                        href={'/admin/peternak/pemanenan'}>
+                        <Button
+                          colorScheme="green"
+                          bg="green.400"
+                          color="white"
+                          _hover={{ bg: 'green.500', }}
+                          isFullWidth> Pemanenan </Button>
+                      </Link>
+                    </Box>
+                    
                   </Flex>
                   <Flex mt='5'>
                     <Table variant='striped'>
@@ -84,7 +102,7 @@ export default function Peternak() {
                           <Th>Id</Th>
                           <Th>Nama</Th>
                           <Th>Provinsi</Th>
-                          <Th>Kecamatan/Kelurahan</Th>
+                          <Th>Kecamatan, Kelurahan</Th>
                           <Th>Jumlah Volume</Th>
                         </Tr>
                       </Thead>
@@ -96,8 +114,21 @@ export default function Peternak() {
                                 <Td> {item.id}</Td>
                                 <Td> {item.name}</Td>
                                 <Td> {item.provinsi}</Td>
-                                <Td> {item.kecamatan}/{item.kelurahan}</Td>
+                                <Td> {item.kecamatan}, {item.kelurahan}</Td>
                                 <Td> {item.jumlah_volume}</Td>
+                                <Td>
+                                  <Link 
+                                    href={`/admin/peternak/${item.id}`}
+                                    _hover={{ textDecoration: 'none' }}>
+                                    <Button
+                                      colorScheme="green"
+                                      size="sm"
+                                      bg="green.400"
+                                      color="white"
+                                      _hover={{ bg: 'green.500', }}
+                                      isFullWidth > Detail Peternak </Button>
+                                  </Link>
+                                </Td>
                               </Tr>
                             )
                           })
