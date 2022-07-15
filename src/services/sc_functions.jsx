@@ -1,9 +1,23 @@
 import getFromDb from './getFromDb';
 import {supabase} from '../supabaseClient';
+import Web3Modal from "web3modal"; 
+import { ethers } from 'ethers'; 
+import TreaceabilityAbi from '../abi/TreaceabilityAbi'; 
+
+const contractAddress = '0x89a14534081d516615812a062326a99C78ae2647';
 
 async function getState() {
   const result = await getFromDb('state')
   return result[0];
+}
+
+export async function getContract() {
+  const web3Modal = new Web3Modal(); 
+  const connection = await web3Modal.connect(); 
+  const provider = new ethers.providers.Web3Provider(connection); 
+  const signer = provider.getSigner();
+  const contract = new ethers.Contract(contractAddress, TreaceabilityAbi, signer);
+  return contract;
 }
 
 async function updateState(data_obj) {
@@ -68,6 +82,7 @@ export async function  f3_rumahProduksiStatus(new_data) {
 export async function f4_pemanenan(stup_sumber, id_peternak, data_panen, komposisi_volume) {
   let total_volume = 0;
   let state = await getState();
+  const contract = await getContract();
   let state_t = Object.assign({}, state);
   for (let i = 0; i < stup_sumber.length; i++) {
     let today = Math.floor(new Date().getTime()/1000);
@@ -80,5 +95,11 @@ export async function f4_pemanenan(stup_sumber, id_peternak, data_panen, komposi
   state_t.peternaks[id_peternak-1].jumlah_volume = parseFloat(state_t.peternaks[id_peternak-1].jumlah_volume) + total_volume;
   state_t.peternaks[id_peternak-1].products_raw.push(data_panen);
 
+  const transaction = await contract.f4_farming(
+    JSON.stringify(state_t.stups),
+    JSON.stringify(state_t.peternaks)
+  );
+  await transaction.wait();
+  console.log(transaction.hash);
   return updateState({ stups: state_t.stups, peternaks: state_t.peternaks })
 }

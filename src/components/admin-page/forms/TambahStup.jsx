@@ -34,6 +34,7 @@ import DatePicker from "react-datepicker";
 import {supabase} from "../../../supabaseClient"
 import getFromDb from "../../../services/getFromDb";
 import updateState from "../../../services/sendToDb";
+import {getContract} from '../../../services/sc_functions';
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -47,6 +48,7 @@ export default function TambahStup() {
   
   const handleSubmit = async () => {
     const state = await getFromDb('state');
+    const contract = await getContract();
     state[0].stups.push({
       id: state[0].stups.length + 1,
       lokasi: [
@@ -58,10 +60,16 @@ export default function TambahStup() {
       terakhir_dipanen: Math.floor(startDate.getTime()/1000)
     })
     try {
+      const transaction = await contract
+        .f2_addStupStatus(JSON.stringify(state[0].stups));
       const { data, error } = await supabase
         .from('state')
         .update({stups: state[0].stups})
         .eq('id', 1);
+
+      console.log(transaction.hash);
+      await transaction.wait();
+      
       if (error) throw error
       if (data) {
         alert('data berhasil ditambahkan')

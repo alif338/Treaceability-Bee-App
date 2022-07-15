@@ -27,7 +27,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import getFromDb from "../../services/getFromDb";
 import DatePicker from "react-datepicker";
-import { f4_pemanenan } from "../../services/sc_functions";
+import { f4_pemanenan, getContract } from "../../services/sc_functions";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -72,15 +72,20 @@ export default function Pemanenan() {
       rasa: rasa,
       tanggal_panen: Math.floor(startDate.getTime()/1000)
     }
-
-    const result = await f4_pemanenan(stup_sumber, idPeternak, data_panen, komposisi_volume)
-    console.log(result);
-    if (result) {
-      alert("Pemanenan Berhasil");
-    } else {
+    
+    try {
+      const result = await f4_pemanenan(stup_sumber, idPeternak, data_panen, komposisi_volume)
+      console.log(result);
+      if (result) {
+        alert("Pemanenan Berhasil");
+        navigate("/admin/peternak");
+      } else {
+        throw "Gagal";
+      }
+      
+    } catch(error) {
       alert("Pemanenan GAGAL")
     }
-    navigate("/admin/peternak");
   }
 
   return (
